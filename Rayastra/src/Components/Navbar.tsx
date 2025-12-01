@@ -21,7 +21,7 @@ const Navbar = () => {
 
           {/* Logo */}
           <div className="flex items-center gap-2 text-white font-semibold text-lg">
-            Deltanews
+            Creddible
           </div>
 
           {/* Desktop Links */}

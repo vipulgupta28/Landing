@@ -3,7 +3,7 @@ import { TextGenerateEffect } from "../ui/textgenerate";
 
 const Courses = () => {
 
-  const words = `What DeltaNews Offers`;
+  const words = `What Creddible Offers`;
   return (
     <section
       id="offerings"

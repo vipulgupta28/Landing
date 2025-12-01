@@ -13,7 +13,7 @@ export function BackgroundBoxesDemo() {
         {/* Branding & Newsletter */}
         <div className="text-center space-y-4 w-full">
           <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white animate-pulse">
-            DELTANEWS
+            Creddible
           </h2>
 
           <p className="text-zinc-300 text-sm md:text-base">
@@ -41,7 +41,7 @@ export function BackgroundBoxesDemo() {
 
         {/* Footer Note */}
         <div className="text-xs mt-10 text-zinc-500 text-center">
-          © {new Date().getFullYear()} Deltanews. All rights reserved.
+          © {new Date().getFullYear()} Creddible. All rights reserved.
         </div>
 
       </footer>
