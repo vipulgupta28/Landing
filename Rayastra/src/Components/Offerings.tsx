@@ -1,4 +1,4 @@
-import video from "../assets/Deltanews.mp4"
+import video from "../assets/Creddible.mp4"
 import { TextGenerateEffect } from "../ui/textgenerate";
 
 export default function Offerings() {
