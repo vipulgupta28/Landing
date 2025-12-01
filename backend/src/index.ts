@@ -1,32 +1,62 @@
 import express, { type Request, type Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import {Redis }from 'ioredis';
 
 dotenv.config();
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
-let demoCount = 0;
+// -----------------------------
+// REDIS CONNECTION
+// -----------------------------
+const redis = new Redis(process.env.REDIS_URL!); 
+// Example for Render/Upstash: redis://default:password@host:6379
+
+// KEY NAME
+const DEMO_COUNT_KEY = "demoCount";
+
+// Initialize counter if not exists
+async function initializeCounter() {
+  const current = await redis.get(DEMO_COUNT_KEY);
+  if (current === null) {
+    await redis.set(DEMO_COUNT_KEY, 0);
+    console.log("Initialized demoCount = 0");
+  } else {
+    console.log(`Loaded demoCount = ${current}`);
+  }
+}
+
+initializeCounter();
+
+// -----------------------------
+// ROUTES
+// -----------------------------
 
 app.get('/', (_req: Request, res: Response) => {
   res.send('Hello World');
 });
 
-app.get('/api/demo', (_req: Request, res: Response) => {
-  res.json({ demoCount });
+// GET demo count
+app.get('/api/demo', async (_req: Request, res: Response) => {
+  const count = await redis.get(DEMO_COUNT_KEY);
+  res.json({ demoCount: Number(count) });
 });
 
-app.post('/api/demo', (_req: Request, res: Response) => {
-  demoCount += 1;
-  console.log(`Demo requests so far: ${demoCount}`);
-  res.json({ demoCount });
+// INCREMENT demo count
+app.post('/api/demo', async (_req: Request, res: Response) => {
+  const count = await redis.incr(DEMO_COUNT_KEY); // atomic increment
+  console.log(`Demo requests so far: ${count}`);
+  res.json({ demoCount: count });
 });
 
+// -----------------------------
+// START SERVER
+// -----------------------------
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
